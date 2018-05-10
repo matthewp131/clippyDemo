@@ -1,0 +1,23 @@
+<form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md">
+      <div class="form-group">
+        <label for="agentList">Agents</label>
+        <div id="agentList" class="btn-group-vertical btn-group-toggle custom-control custom-radio" data-toggle="buttons">
+          <label class="btn btn-secondary" *ngFor="let name of agentNames; let i = index" [ngClass]="{'active': name === this.agentForm.get('agentName').value}">
+            <input type="radio" name="agentName" id="{{name}}radio" autocomplete="off" value="{{name}}" formControlName="agentName">{{name}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md">
+      <div class="form-group">
+        <label for="agentList">Message</label>
+        <textarea class="form-control" id="messageTextarea" rows="2" formControlName="agentMessage"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!agentForm.valid" class="btn btn-primary">Submit</button>
+</form>
