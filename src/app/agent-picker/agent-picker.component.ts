@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import clippyjs from 'clippyjs';
 import { NullTemplateVisitor } from '@angular/compiler';
@@ -29,7 +29,7 @@ export class AgentPickerComponent implements OnInit {
 
   createForm() {
     this.agentForm = this.formBuilder.group({
-      agentName: new FormControl(),
+      agentName: new FormControl('', Validators.required),
       agentMessage: new FormControl(),
       agentAnimation: new FormControl(),
       agentGestureXY: this.formBuilder.group({
@@ -76,12 +76,21 @@ export class AgentPickerComponent implements OnInit {
       agent.gestureAt(this.agentForm.get(['agentGestureXY', 'X_px']).value, this.agentForm.get(['agentGestureXY', 'Y_px']).value);
       agent.moveTo(this.agentForm.get(['agentDestinationXY', 'X_px']).value, this.agentForm.get(['agentDestinationXY', 'Y_px']).value);
 
-      let task = new AgentTask();
-      task.action = 'animate';
-      this.taskQueue.push(task);
-      console.log(task);
+      this.processAction();
       this.rebuildForm();
     });
+  }
+
+  processAction() {
+    const newTask = new AgentTask();
+
+    newTask.name = this.agentForm.get('agentName').value;
+    
+    
+
+    newTask.action = 'animate';
+    this.taskQueue.push(newTask);
+    console.log(newTask);
   }
 
 }

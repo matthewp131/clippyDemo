@@ -1,4 +1,5 @@
 export class AgentTask {
+    name: string;
     action: string;
     animation: string;
     destination: Coordinates;
