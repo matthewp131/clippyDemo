@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, bindCallback } from 'rxjs';
+import { map } from 'rxjs/operators';
 import clippyjs from 'clippyjs';
 
 @Component({
@@ -8,7 +10,18 @@ import clippyjs from 'clippyjs';
 })
 export class AppComponent implements OnInit {
   title = 'app';
+  clippyToObservable: any;
+  clippyLoader: any;
+
+  public constructor() {
+    this.clippyToObservable = bindCallback(clippyjs.load);
+  }
 
   public ngOnInit() {
+    this.clippyLoader  = this.clippyToObservable('Clippy');
+    this.clippyLoader.subscribe((agent) => {
+      agent.show();
+      agent.speak('Hello');
+    });
   }
 }

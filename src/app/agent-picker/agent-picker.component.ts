@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@ang
 import clippyjs from 'clippyjs';
 import { NullTemplateVisitor } from '@angular/compiler';
 
-import { AgentTask, Coordinates } from '../AgentTask';
+import { Agent, Coordinates } from '../AgentTask';
 
 @Component({
   selector: 'app-agent-picker',
@@ -15,9 +15,7 @@ export class AgentPickerComponent implements OnInit {
   agentForm: FormGroup;
 
   agentNames: string[] = ['Merlin', 'Links', 'Genius', 'Genie', 'Rover', 'Peedy', 'Bonzi', 'Clippy', 'F1', 'Rocky'];
-  currentAgent: string;
   agentAnimations: string[];
-  taskQueue: AgentTask[] = [];
 
   constructor(private formBuilder: FormBuilder) {
     this.createForm();
@@ -54,15 +52,13 @@ export class AgentPickerComponent implements OnInit {
         Y_px: 500
       }
     });
-    this.currentAgent = null;
     this.agentAnimations.length = 0;
   }
 
   onChanges() {
     this.agentForm.get('agentName').valueChanges.subscribe(newAgentName => {
-      this.currentAgent = newAgentName;
       this.agentForm.get('agentAnimation').reset();
-      clippyjs.load(this.currentAgent, (agent) => {
+      clippyjs.load(newAgentName, (agent) => {
         this.agentAnimations = agent.animations().sort();
       });
     });
@@ -82,15 +78,6 @@ export class AgentPickerComponent implements OnInit {
   }
 
   processAction() {
-    const newTask = new AgentTask();
-
-    newTask.name = this.agentForm.get('agentName').value;
-    
-    
-
-    newTask.action = 'animate';
-    this.taskQueue.push(newTask);
-    console.log(newTask);
   }
 
 }
