@@ -1,72 +1,95 @@
+import { bindCallback } from 'rxjs';
+import clippyjs from 'clippyjs';
+
 export class Agent {
-    private static idCounter = 0;
-    private name: string;
-    private tasks: Task[];
-    private id: number;
-    private agentObject: any;
+  private static idCounter = 0;
+  private name: string;
+  private tasks: Task[];
+  private id: number;
+  private agentObject: any;
+  private agentToObservable: any;
+  private agentLoader: any;
 
-    constructor(name: string) {
-        this.name = name;
-        this.tasks = new Array<Task>();
-        this.id = Agent.idCounter;
-        Agent.idCounter++;
+  constructor(name: string) {
+    this.name = name;
+    this.tasks = new Array < Task > ();
+    this.id = Agent.idCounter;
+    Agent.idCounter++;
+
+    this.agentToObservable = bindCallback(clippyjs.load);
+    this.agentLoader = this.agentToObservable(this.name);
+    this.agentLoader.subscribe((agent) => {
+      this.agentObject = agent;
+    });
+  }
+
+  public addTask(action: string, params?: any): void {
+    const newTask = new Task(action, params);
+    this.tasks = [...this.tasks, newTask];
+  }
+
+  public startAgent() {
+    this.agentObject.show();
+
+    for (const task of this.tasks) {
+      Task.runTask(this.agentObject, task);
     }
+  }
 
-    public addTask(newTask: Task): number {
-        return this.tasks.push(newTask);
-    }
+  public stopCurrentTask() {
+    this.agentObject.stopCurrent();
+  }
 
-    public startAgent() {
+  public stopAgent() {
+    this.agentObject.stop();
+  }
 
-    }
+  public getName(): string {
+    return this.name;
+  }
 
-    public stopCurrentTask() {
-        this.agentObject.stopCurrent();
-    }
+  public setName(newName: string): string {
+    this.name = newName;
+    return this.name;
+  }
 
-    public stopAgent() {
-        this.agentObject.stop();
-    }
+  public getTasks(): Task[] {
+    return this.tasks.map((task: Task) => Object.assign({}, task));
+  }
 
-    public getName(): string {
-        return this.name;
-    }
-
-    public getTasks(): Task[] {
-        return this.tasks.map((task: Task) => Object.assign({}, task));
-    }
-
-    public getId(): number {
-        return this.id;
-    }
+  public getId(): number {
+    return this.id;
+  }
 }
 
 export class Task {
-    private static validActions: string[] = ['show', 'hide', 'play', 'animate', 'speak', 'moveTo', 'gestureAt', 'stopCurrent', 'stop'];
-    action: string;
-    animation: string;
-    destination: Coordinates;
-    gesture: Coordinates;
-    message: string;
+  private static validActions: string[] = ['show', 'hide', 'play', 'animate', 'speak', 'moveTo', 'gestureAt', 'stopCurrent', 'stop'];
+  action: string;
+  animation: string;
+  destination: Coordinates;
+  gesture: Coordinates;
+  message: string;
+  timeoutMs: number;
 
-    constructor(action: string, params?: any) {
-        if (!Task.validActions.includes(action)) {
-            throw new Error('Attempted to create new Task with invalid action');
-        }
-
-        this.action = action;
-        switch (this.action) {
-            case 'show':
-                break;
-        }
+  constructor(action: string, params?: any) {
+    if (action === 'speak') {
+      this.action = action;
+      this.message = params;
     }
+  }
 
-    public getValidActions(): string[] {
-        return Task.validActions;
+  public static runTask(agent: any, task: Task) {
+    if (task.action === 'speak') {
+      agent.speak(task.message);
     }
+  }
+
+  public getValidActions(): string[] {
+    return Task.validActions;
+  }
 }
 
 export class Coordinates {
-    X_px: number;
-    Y_px: number;
+  X_px: number;
+  Y_px: number;
 }

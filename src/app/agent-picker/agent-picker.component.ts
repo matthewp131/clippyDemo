@@ -65,19 +65,18 @@ export class AgentPickerComponent implements OnInit {
   }
 
   onSubmit() {
-    clippyjs.load(this.agentForm.get('agentName').value, (agent) => {
-      agent.show();
-      agent.speak(this.agentForm.get('agentMessage').value);
-      agent.play(this.agentForm.get('agentAnimation').value);
-      agent.gestureAt(this.agentForm.get(['agentGestureXY', 'X_px']).value, this.agentForm.get(['agentGestureXY', 'Y_px']).value);
-      agent.moveTo(this.agentForm.get(['agentDestinationXY', 'X_px']).value, this.agentForm.get(['agentDestinationXY', 'Y_px']).value);
-
-      this.processAction();
-      this.rebuildForm();
-    });
+    this.processAction();
+    this.rebuildForm();
   }
 
   processAction() {
+    const newAgent = new Agent(this.agentForm.get('agentName').value);
+
+    if (this.agentForm.get('agentMessage').value) {
+      newAgent.addTask('speak', this.agentForm.get('agentMessage').value);
+    }
+
+    newAgent.startAgent();
   }
 
 }

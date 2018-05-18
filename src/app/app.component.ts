@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, bindCallback } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { bindCallback } from 'rxjs';
 import clippyjs from 'clippyjs';
 
 @Component({
