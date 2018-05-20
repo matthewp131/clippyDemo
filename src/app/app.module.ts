@@ -4,11 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AgentPickerComponent } from './agent-picker/agent-picker.component';
+import { TaskPickerComponent } from './agent-picker/task-picker/task-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AgentPickerComponent
+    AgentPickerComponent,
+    TaskPickerComponent
   ],
   imports: [
     BrowserModule,

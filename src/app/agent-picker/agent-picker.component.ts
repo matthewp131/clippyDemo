@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 import clippyjs from 'clippyjs';
 import { NullTemplateVisitor } from '@angular/compiler';
 
-import { Agent, Coordinates } from '../AgentTask';
+import { Agent, Task, Coordinates } from '../AgentTask';
 
 @Component({
   selector: 'app-agent-picker',
@@ -12,10 +13,12 @@ import { Agent, Coordinates } from '../AgentTask';
   styleUrls: ['./agent-picker.component.css']
 })
 export class AgentPickerComponent implements OnInit {
-  agentForm: FormGroup;
+  @Output() agentEmitter = new EventEmitter<Agent>();
 
+  agentForm: FormGroup;
   agentNames: string[] = ['Merlin', 'Links', 'Genius', 'Genie', 'Rover', 'Peedy', 'Bonzi', 'Clippy', 'F1', 'Rocky'];
-  agentAnimations: string[];
+  currentName: string;
+  private currentAgent: Agent;
 
   constructor(private formBuilder: FormBuilder) {
     this.createForm();
@@ -25,58 +28,29 @@ export class AgentPickerComponent implements OnInit {
     this.onChanges();
   }
 
-  createForm() {
-    this.agentForm = this.formBuilder.group({
-      agentName: new FormControl('', Validators.required),
-      agentMessage: new FormControl(),
-      agentAnimation: new FormControl(),
-      agentGestureXY: this.formBuilder.group({
-        X_px: new FormControl(500),
-        Y_px: new FormControl(500)
-      }),
-      agentDestinationXY: this.formBuilder.group({
-        X_px: new FormControl(500),
-        Y_px: new FormControl(500)
-      })
-    });
-  }
-
-  rebuildForm() {
-    this.agentForm.reset({
-      agentGestureXY: {
-        X_px: 500,
-        Y_px: 500
-      },
-      agentDestinationXY: {
-        X_px: 500,
-        Y_px: 500
-      }
-    });
-    this.agentAnimations.length = 0;
-  }
-
-  onChanges() {
-    this.agentForm.get('agentName').valueChanges.subscribe(newAgentName => {
-      this.agentForm.get('agentAnimation').reset();
-      clippyjs.load(newAgentName, (agent) => {
-        this.agentAnimations = agent.animations().sort();
-      });
-    });
+  onTaskEmit(task: Task) {
+    this.currentAgent.addTask(task);
   }
 
   onSubmit() {
-    this.processAction();
+    this.agentEmitter.emit(this.currentAgent);
     this.rebuildForm();
   }
 
-  processAction() {
-    const newAgent = new Agent(this.agentForm.get('agentName').value);
-
-    if (this.agentForm.get('agentMessage').value) {
-      newAgent.addTask('speak', this.agentForm.get('agentMessage').value);
-    }
-
-    newAgent.startAgent();
+  private createForm() {
+    this.agentForm = this.formBuilder.group({
+      agentName: new FormControl('', Validators.required)
+    });
   }
 
+  private rebuildForm() {
+    this.agentForm.reset();
+  }
+
+  private onChanges() {
+    this.agentForm.get('agentName').valueChanges.subscribe(newAgentName => {
+      this.currentName = newAgentName;
+      this.currentAgent = (this.currentName ? new Agent(this.currentName) : null);
+    });
+  }
 }

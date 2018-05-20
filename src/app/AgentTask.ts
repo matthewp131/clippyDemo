@@ -12,7 +12,7 @@ export class Agent {
 
   constructor(name: string) {
     this.name = name;
-    this.tasks = new Array < Task > ();
+    this.tasks = new Array <Task> ();
     this.id = Agent.idCounter;
     Agent.idCounter++;
 
@@ -23,9 +23,8 @@ export class Agent {
     });
   }
 
-  public addTask(action: string, params?: any): void {
-    const newTask = new Task(action, params);
-    this.tasks = [...this.tasks, newTask];
+  public addTask(task: Task): void {
+    this.tasks = [...this.tasks, task];
   }
 
   public startAgent() {
@@ -44,12 +43,20 @@ export class Agent {
     this.agentObject.stop();
   }
 
+  public hideAgent() {
+    this.agentObject.hide();
+  }
+
   public getName(): string {
     return this.name;
   }
 
   public setName(newName: string): string {
     this.name = newName;
+    this.agentLoader = this.agentToObservable(this.name);
+    this.agentLoader.subscribe((agent) => {
+      this.agentObject = agent;
+    });
     return this.name;
   }
 
@@ -72,15 +79,37 @@ export class Task {
   timeoutMs: number;
 
   constructor(action: string, params?: any) {
-    if (action === 'speak') {
-      this.action = action;
-      this.message = params;
+    this.action = action;
+    switch (this.action) {
+      case 'speak':
+        this.message = params;
+        break;
+      case 'moveTo':
+        this.destination = params;
+        break;
+      case 'gestureAt':
+        this.gesture = params;
+        break;
+      case 'play':
+        this.animation = params;
+        break;
     }
   }
 
   public static runTask(agent: any, task: Task) {
-    if (task.action === 'speak') {
-      agent.speak(task.message);
+    switch (task.action) {
+      case 'speak':
+        agent.speak(task.message);
+        break;
+      case 'moveTo':
+        agent.moveTo(task.destination.X_px, task.destination.Y_px);
+        break;
+      case 'gestureAt':
+        agent.gestureAt(task.gesture.X_px, task.gesture.Y_px);
+        break;
+      case 'play':
+        agent.play(task.animation);
+        break;
     }
   }
 
@@ -92,4 +121,9 @@ export class Task {
 export class Coordinates {
   X_px: number;
   Y_px: number;
+
+  constructor(x: number, y: number) {
+    this.X_px = x;
+    this.Y_px = y;
+  }
 }
