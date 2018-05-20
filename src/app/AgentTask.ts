@@ -23,28 +23,12 @@ export class Agent {
     });
   }
 
-  public addTask(task: Task): void {
-    this.tasks = [...this.tasks, task];
-  }
-
   public startAgent() {
     this.agentObject.show();
 
     for (const task of this.tasks) {
       Task.runTask(this.agentObject, task);
     }
-  }
-
-  public stopCurrentTask() {
-    this.agentObject.stopCurrent();
-  }
-
-  public stopAgent() {
-    this.agentObject.stop();
-  }
-
-  public hideAgent() {
-    this.agentObject.hide();
   }
 
   public getName(): string {
@@ -60,8 +44,28 @@ export class Agent {
     return this.name;
   }
 
+  public addTask(task: Task): void {
+    this.tasks = [...this.tasks, task];
+  }
+
   public getTasks(): Task[] {
     return this.tasks.map((task: Task) => Object.assign({}, task));
+  }
+
+  public deleteTask(taskIndex: number): void {
+    this.tasks = this.tasks.slice(0, taskIndex).concat(this.tasks.slice(taskIndex + 1));
+  }
+
+  public stopCurrentTask() {
+    this.agentObject.stopCurrent();
+  }
+
+  public stopAgent() {
+    this.agentObject.stop();
+  }
+
+  public hideAgent() {
+    this.agentObject.hide();
   }
 
   public getId(): number {

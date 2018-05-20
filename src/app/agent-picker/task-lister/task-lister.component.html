@@ -1,0 +1,4 @@
+<label for="taskList">Tasks for Current Agent</label>
+<ul id="taskList" class="list-group">
+  <li class="list-group-item" *ngFor="let task of tasks; let i = index">{{task.action}}</li>
+</ul>

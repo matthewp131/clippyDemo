@@ -18,6 +18,7 @@ export class AgentPickerComponent implements OnInit {
   agentForm: FormGroup;
   agentNames: string[] = ['Merlin', 'Links', 'Genius', 'Genie', 'Rover', 'Peedy', 'Bonzi', 'Clippy', 'F1', 'Rocky'];
   currentName: string;
+  taskList: Task[];
   private currentAgent: Agent;
 
   constructor(private formBuilder: FormBuilder) {
@@ -30,6 +31,12 @@ export class AgentPickerComponent implements OnInit {
 
   onTaskEmit(task: Task) {
     this.currentAgent.addTask(task);
+    this.taskList = this.currentAgent.getTasks();
+  }
+
+  onTaskDelete(taskIndex: number) {
+    this.currentAgent.deleteTask(taskIndex);
+    this.taskList = this.currentAgent.getTasks();
   }
 
   onSubmit() {

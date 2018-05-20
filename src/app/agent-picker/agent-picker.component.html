@@ -14,6 +14,10 @@
     <div class="col-md">
       <app-task-picker [agentName]="currentName" (taskEmitter)="onTaskEmit($event)"></app-task-picker>
     </div>  
+
+    <div class="col-md">
+      <app-task-lister [tasks]="taskList" (taskDeleter)="onTaskDelete($event)"></app-task-lister>
+    </div>
       
   </div>
 
