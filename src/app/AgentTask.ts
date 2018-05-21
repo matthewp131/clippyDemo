@@ -74,7 +74,9 @@ export class Agent {
 }
 
 export class Task {
-  private static validActions: string[] = ['show', 'hide', 'play', 'animate', 'speak', 'moveTo', 'gestureAt', 'stopCurrent', 'stop'];
+  private static validActions: Map<string, string> = new Map([['show', 'Show Agent'], ['hide', 'Hide Agent'], ['play', 'Play Animation'],
+  ['animate', 'Play Random Animation'], ['speak', 'Message'], ['moveTo', 'Move To Location'], ['gestureAt', 'Gesture At Location'],
+  ['stopCurrent', 'Stop Current Task'], ['stop', 'Stop Agent']]);
   action: string;
   animation: string;
   destination: Coordinates;
@@ -117,8 +119,29 @@ export class Task {
     }
   }
 
-  public getValidActions(): string[] {
-    return Task.validActions;
+  public static getValidActions(): Map<string, string> {
+    return new Map(Task.validActions);
+  }
+
+  public static stringify(task: Task): string {
+    let description: string;
+
+    switch (task.action) {
+      case 'speak':
+        description = `${Task.validActions.get(task.action)}: "${task.message}"`;
+        break;
+      case 'moveTo':
+        description = `${Task.validActions.get(task.action)}: ${task.destination.toString()}`;
+        break;
+      case 'gestureAt':
+        description = `${Task.validActions.get(task.action)}: ${task.gesture.toString()}`;
+        break;
+      case 'play':
+        description = `${Task.validActions.get(task.action)}: "${task.animation.toString()}"`;
+        break;
+    }
+
+    return description;
   }
 }
 
@@ -129,5 +152,9 @@ export class Coordinates {
   constructor(x: number, y: number) {
     this.X_px = x;
     this.Y_px = y;
+  }
+
+  public toString(): string {
+    return `(${this.X_px.toString()}, ${this.Y_px.toString()})`;
   }
 }

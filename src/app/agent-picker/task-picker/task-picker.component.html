@@ -1,7 +1,7 @@
 <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="form-group">
-      <label for="actionList">Actions</label>
+      <label for="actionList">2. Add a Task</label>
       <div id="actionList" class="btn-group-vertical btn-group-toggle custom-control custom-radio" data-toggle="buttons">
         <label class="btn btn-secondary" *ngFor="let action of agentActions; let i = index" [ngClass]="{'active': action === this.taskForm.get('agentAction').value}">
           <input type="radio" name="agentAction" id="{{action}}radio" autocomplete="off" [value]="action" formControlName="agentAction">{{action}}

@@ -17,10 +17,12 @@ export class TaskPickerComponent implements OnInit, OnChanges {
 
   taskForm: FormGroup;
 
-  agentActions: string[] = ['Message', 'Move To Location', 'Gesture At Location', 'Play Animation'];
+  agentActions: string[];
   agentAnimations: string[];
 
   constructor(private formBuilder: FormBuilder) {
+    const actionMap: Map<string, string> = Task.getValidActions();
+    this.agentActions = [actionMap.get('speak'), actionMap.get('moveTo'), actionMap.get('gestureAt'), actionMap.get('play')];
     this.createForm();
    }
 

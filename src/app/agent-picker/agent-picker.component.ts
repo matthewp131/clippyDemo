@@ -41,6 +41,8 @@ export class AgentPickerComponent implements OnInit {
 
   onSubmit() {
     this.agentEmitter.emit(this.currentAgent);
+    this.taskList.length = 0;
+    this.currentName = null;
     this.rebuildForm();
   }
 
