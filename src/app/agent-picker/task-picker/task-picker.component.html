@@ -1,60 +1,66 @@
-<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-  <div class="row">
-    <div class="form-group">
-      <label for="actionList">2. Add a Task</label>
-      <div id="actionList" class="btn-group-vertical btn-group-toggle custom-control custom-radio" data-toggle="buttons">
-        <label class="btn btn-secondary" *ngFor="let action of agentActions; let i = index" [ngClass]="{'active': action === this.taskForm.get('agentAction').value}">
-          <input type="radio" name="agentAction" id="{{action}}radio" autocomplete="off" [value]="action" formControlName="agentAction">{{action}}
-        </label>
-      </div>
-    </div>
-
-    <div class="form-group" *ngIf="this.taskForm.get('agentAction').value === 'Message'">
-      <label for="messageTextArea" class="col-form-label">Message</label>
-      <textarea class="form-control" id="messageTextarea" rows="2" formControlName="agentMessage"></textarea>
-    </div>
-
-    <div class="form-group" *ngIf="this.taskForm.get('agentAction').value === 'Play Animation'">
-      <label for="animationList">Animation</label>
-      <select id="animationList" class="form-control custom-select" id="animationSelect" formControlName="agentAnimation">
-        <option *ngFor="let animation of agentAnimations; let i = index" [value]="animation">{{animation}}</option>
-      </select>
-    </div>
-
-    <div class="form-group" *ngIf="this.taskForm.get('agentAction').value === 'Gesture At Location'">
-      <label for="GestureCoordinates">Gesture Coordinates</label>
-      <div id="GestureCoordinates" class="form-group row" formGroupName="agentGestureXY">
-        <div class="col-sm">
-          <label for="GestureX" class="col-form-label">X (in px): </label>
-          <input class="form-control" id="GestureX" formControlName="X_px">
-        </div>
-
-        <div class="col-sm">
-          <label for="GestureY" class="col-form-label">Y (in px): </label>
-          <input class="form-control" id="GestureY" formControlName="Y_px">
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group" *ngIf="this.taskForm.get('agentAction').value === 'Move To Location'">
-      <label for="DestinationCoordinates">Destination Coordinates</label>
-      <div id="DestinationCoordinates" class="form-group row" formGroupName="agentDestinationXY">
-        <div class="col-sm">
-          <label for="DestinationX" class="col-form-label">X (in px): </label>
-          <input class="form-control" id="DestinationX" formControlName="X_px">
-        </div>
-
-        <div class="col-sm">
-          <label for="DestinationY" class="col-form-label">Y (in px): </label>
-          <input class="form-control" id="DestinationY" formControlName="Y_px">
-        </div>
-      </div>
-    </div>
+<div class="card">
+  <div class="card-header">
+    2. Add a Task
   </div>
+  <div class="card-body">
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="form-group">
+          <div class="btn-group-vertical btn-group-toggle custom-control custom-radio" data-toggle="buttons">
+            <label class="btn btn-secondary" *ngFor="let action of agentActions; let i = index" [ngClass]="{'active': action === this.taskForm.get('agentAction').value}">
+              <input type="radio" autocomplete="off" [value]="action" formControlName="agentAction">{{action}}
+            </label>
+          </div>
+        </div>
 
-  <div class="row">
-    <div class="col-md" align="right">
-      <button type="submit" [disabled]="!taskForm.valid" class="btn btn-primary">Add Task</button>
-    </div>
+        <div class="form-group" *ngIf="this.taskForm.get('agentAction').value === 'Message'">
+          <label for="messageTextArea" class="col-form-label">Message</label>
+          <textarea class="form-control" id="messageTextarea" rows="2" formControlName="agentMessage"></textarea>
+        </div>
+
+        <div class="form-group" *ngIf="this.taskForm.get('agentAction').value === 'Play Animation'">
+          <label for="animationList">Animation</label>
+          <select id="animationList" class="form-control custom-select" id="animationSelect" formControlName="agentAnimation">
+            <option *ngFor="let animation of agentAnimations; let i = index" [value]="animation">{{animation}}</option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="this.taskForm.get('agentAction').value === 'Gesture At Location'">
+          <label for="GestureCoordinates">Gesture Coordinates</label>
+          <div id="GestureCoordinates" class="form-group row" formGroupName="agentGestureXY">
+            <div class="col-sm">
+              <label for="GestureX" class="col-form-label">X (in px): </label>
+              <input class="form-control" id="GestureX" formControlName="X_px">
+            </div>
+
+            <div class="col-sm">
+              <label for="GestureY" class="col-form-label">Y (in px): </label>
+              <input class="form-control" id="GestureY" formControlName="Y_px">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="this.taskForm.get('agentAction').value === 'Move To Location'">
+          <label for="DestinationCoordinates">Destination Coordinates</label>
+          <div id="DestinationCoordinates" class="form-group row" formGroupName="agentDestinationXY">
+            <div class="col-sm">
+              <label for="DestinationX" class="col-form-label">X (in px): </label>
+              <input class="form-control" id="DestinationX" formControlName="X_px">
+            </div>
+
+            <div class="col-sm">
+              <label for="DestinationY" class="col-form-label">Y (in px): </label>
+              <input class="form-control" id="DestinationY" formControlName="Y_px">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md" align="right">
+          <button type="submit" [disabled]="!taskForm.valid" class="btn btn-primary">Add Task</button>
+        </div>
+      </div>
+    </form>
   </div>
-</form>
+</div>
