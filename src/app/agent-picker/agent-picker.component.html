@@ -1,29 +1,20 @@
-<form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
-  <div class="row">
-    <div class="col-md">
-      <div class="form-group">
-        <label for="agentList">1. Select an Agent</label>
-        <div id="agentList" class="btn-group-vertical btn-group-toggle custom-control custom-radio" data-toggle="buttons">
-          <label class="btn btn-secondary" *ngFor="let name of agentNames; let i = index" [ngClass]="{'active': name === this.agentForm.get('agentName').value}">
-            <input type="radio" name="agentName" id="{{name}}radio" autocomplete="off" [value]="name" formControlName="agentName">{{name}}
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md">
-      <app-task-picker [agentName]="currentName" (taskEmitter)="onTaskEmit($event)"></app-task-picker>
-    </div>  
-
-    <div class="col-md">
-      <app-task-lister [tasks]="taskList" (taskDeleter)="onTaskDelete($event)"></app-task-lister>
-    </div>
-      
+<div class="row">
+  <div class="col-md">
+    <app-name-picker [submitObservable]="submitWatcher" (nameEmitter)="onNameEmit($event)"></app-name-picker>
   </div>
 
-  <div class="row">
-    <div class="col-md" align="right">
-      <button type="submit" [disabled]="!agentForm.valid" class="btn btn-primary">Spawn Agent</button>
-    </div>
+  <div class="col-md">
+    <app-task-picker [agentName]="currentName" (taskEmitter)="onTaskEmit($event)"></app-task-picker>
+  </div>  
+
+  <div class="col-md">
+    <app-task-lister [tasks]="taskList" (taskDeleter)="onTaskDelete($event)"></app-task-lister>
   </div>
-</form>
+    
+</div>
+
+<div class="row">
+  <div class="col-md" align="right">
+    <button (click)="onSubmit()" [disabled]="!currentAgent" class="btn btn-primary">Spawn Agent</button>
+  </div>
+</div>

@@ -1,11 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
 
-import clippyjs from 'clippyjs';
-import { NullTemplateVisitor } from '@angular/compiler';
-
-import { Agent, Task, Coordinates } from '../AgentTask';
+import { Agent, Task } from '../AgentTask';
 
 @Component({
   selector: 'app-agent-picker',
@@ -15,18 +11,28 @@ import { Agent, Task, Coordinates } from '../AgentTask';
 export class AgentPickerComponent implements OnInit {
   @Output() agentEmitter = new EventEmitter<Agent>();
 
-  agentForm: FormGroup;
-  agentNames: string[] = ['Merlin', 'Links', 'Genius', 'Genie', 'Rover', 'Peedy', 'Bonzi', 'Clippy', 'F1', 'Rocky'];
+  submitSubject = new Subject<any>();
+  submitWatcher: Observable<any>;
   currentName: string;
-  taskList: Task[];
+  taskList: Task[] = [];
   private currentAgent: Agent;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.createForm();
-   }
+  constructor() { }
 
   ngOnInit() {
-    this.onChanges();
+    this.submitWatcher = this.submitSubject.asObservable();
+  }
+
+  onSubmit() {
+    this.agentEmitter.emit(this.currentAgent);
+    this.taskList.length = 0;
+    this.currentName = null;
+    this.submitSubject.next();
+  }
+
+  onNameEmit(name: string) {
+    this.currentName = name;
+    this.currentAgent = (this.currentName ? new Agent(this.currentName) : null);
   }
 
   onTaskEmit(task: Task) {
@@ -37,29 +43,5 @@ export class AgentPickerComponent implements OnInit {
   onTaskDelete(taskIndex: number) {
     this.currentAgent.deleteTask(taskIndex);
     this.taskList = this.currentAgent.getTasks();
-  }
-
-  onSubmit() {
-    this.agentEmitter.emit(this.currentAgent);
-    this.taskList.length = 0;
-    this.currentName = null;
-    this.rebuildForm();
-  }
-
-  private createForm() {
-    this.agentForm = this.formBuilder.group({
-      agentName: new FormControl('', Validators.required)
-    });
-  }
-
-  private rebuildForm() {
-    this.agentForm.reset();
-  }
-
-  private onChanges() {
-    this.agentForm.get('agentName').valueChanges.subscribe(newAgentName => {
-      this.currentName = newAgentName;
-      this.currentAgent = (this.currentName ? new Agent(this.currentName) : null);
-    });
   }
 }

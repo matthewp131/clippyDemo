@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { AgentPickerComponent } from './agent-picker/agent-picker.component';
 import { TaskPickerComponent } from './agent-picker/task-picker/task-picker.component';
 import { TaskListerComponent } from './agent-picker/task-lister/task-lister.component';
+import { NamePickerComponent } from './agent-picker/name-picker/name-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AgentPickerComponent,
     TaskPickerComponent,
-    TaskListerComponent
+    TaskListerComponent,
+    NamePickerComponent
   ],
   imports: [
     BrowserModule,
