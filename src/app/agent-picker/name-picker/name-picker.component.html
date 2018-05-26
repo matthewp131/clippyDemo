@@ -2,8 +2,8 @@
   <div class="card-header">
     1. Select an Agent
   </div>
-  <div class="card-body">
-    <form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
+  <div class="card-body d-flex align-items-center">
+    <form [formGroup]="nameForm">
       <div class="form-group">
         <div class="btn-group-vertical btn-group-toggle custom-control custom-radio" data-toggle="buttons">
           <label class="btn btn-secondary" *ngFor="let name of agentNames; let i = index" [ngClass]="{'active': name === this.nameForm.get('agentName').value}">

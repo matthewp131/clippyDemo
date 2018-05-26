@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { Task, Coordinates } from '../../AgentTask';
+import { Task } from '../../AgentTask';
 
 @Component({
   selector: 'app-task-lister',

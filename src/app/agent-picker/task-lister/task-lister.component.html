@@ -2,19 +2,16 @@
   <div class="card-header">
       3. Edit Tasks for Current Agent
   </div>
-  <div class="card-body">
-    <form [formGroup]="deleterForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="form-group">
-          <div id="taskList" class="btn-group-vertical btn-group-toggle custom-control custom-radio" data-toggle="buttons">
-            <label class="btn btn-secondary" *ngFor="let task of tasks; let i = index" [ngClass]="{'active': (this.deleterForm != undefined) && (i === this.deleterForm.get('taskIndex').value) }" >
-              <input type="radio" name="taskIndex" id="{{task}}radio" autocomplete="off" [value]="i" formControlName="taskIndex">{{taskToString(i, task)}}
-            </label>
-          </div>
+  <div class="card-body d-flex align-items-center">
+    <form [formGroup]="deleterForm" (ngSubmit)="onSubmit()" style="width:100%">
+      <div class="form-group">
+        <div id="taskList" class="btn-group-vertical btn-group-toggle custom-control custom-radio" data-toggle="buttons">
+          <label class="btn btn-secondary" *ngFor="let task of tasks; let i = index" [ngClass]="{'active': (this.deleterForm != undefined) && (i === this.deleterForm.get('taskIndex').value) }" >
+            <input type="radio" name="taskIndex" id="{{task}}radio" autocomplete="off" [value]="i" formControlName="taskIndex">{{taskToString(i, task)}}
+          </label>
         </div>
       </div>
       
-
       <div class="row">
         <div class="col-md" align="right">
           <button type="submit" [disabled]="!deleterForm.valid" class="btn btn-primary">Delete Task</button>

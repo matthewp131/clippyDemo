@@ -1,10 +1,8 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import clippyjs from 'clippyjs';
-
-import { Agent, Task, Coordinates } from '../../AgentTask';
 
 @Component({
   selector: 'app-name-picker',

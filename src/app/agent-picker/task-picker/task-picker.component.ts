@@ -1,10 +1,10 @@
 import { Component, OnInit, OnChanges, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import clippyjs from 'clippyjs';
 import { NullTemplateVisitor } from '@angular/compiler';
 
-import { Agent, Task, Coordinates } from '../../AgentTask';
+import { Task, Coordinates } from '../../AgentTask';
 
 @Component({
   selector: 'app-task-picker',

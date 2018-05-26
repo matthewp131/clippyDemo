@@ -15,7 +15,7 @@ export class AgentPickerComponent implements OnInit {
   submitWatcher: Observable<any>;
   currentName: string;
   taskList: Task[] = [];
-  private currentAgent: Agent;
+  currentAgent: Agent;
 
   constructor() { }
 
