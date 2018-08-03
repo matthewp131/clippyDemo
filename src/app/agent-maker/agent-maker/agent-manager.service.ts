@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 import { Agent, Task } from './AgentTask';
 
@@ -14,10 +14,11 @@ export class AgentManagerService {
 
   addAgent(newAgent: Agent): void {
     this.agents = [...this.agents, newAgent];
+    this.agentSubject.next(newAgent);
   }
 
   getAgents(): Agent[] {
-    return this.agents.slice();
+    return JSON.parse(JSON.stringify(this.agents));
   }
 
   startAgent(agentId: number): void {
@@ -32,5 +33,9 @@ export class AgentManagerService {
     if (selectedAgent) {
       selectedAgent.stopAgent();
     }
+  }
+
+  newAgentObservable(): Observable<Agent> {
+    return this.agentSubject.asObservable();
   }
 }
