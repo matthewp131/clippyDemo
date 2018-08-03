@@ -1,3 +1,10 @@
-<p>
-  agent-controller works!
-</p>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+  </tr>
+  <tr *ngFor="let agent of agentList">
+    <td>{{agent._id}}</td>
+    <td>{{agent._name}}</td>
+  </tr>
+</table>

@@ -7,7 +7,7 @@ import { Agent, Task } from './AgentTask';
   providedIn: 'root'
 })
 export class AgentManagerService {
-  private agents: Agent[];
+  private agents: Agent[] = [];
   private agentSubject = new Subject<Agent>();
 
   constructor() { }

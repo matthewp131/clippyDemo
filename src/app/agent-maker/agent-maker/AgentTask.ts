@@ -3,9 +3,9 @@ import clippyjs from 'clippyjs';
 
 export class Agent {
   private static idCounter = 0;
-  private _name: string;
+  public _name: string;
   private tasks: Task[];
-  private _id: number;
+  public _id: number;
   private agentObject: any;
   private agentToObservable: any;
   private agentLoader: any;
@@ -32,6 +32,10 @@ export class Agent {
   }
 
   get name(): string {
+    return this._name;
+  }
+
+  getName(): string {
     return this._name;
   }
 
