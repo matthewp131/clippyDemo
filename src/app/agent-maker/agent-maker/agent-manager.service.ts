@@ -21,14 +21,14 @@ export class AgentManagerService {
   }
 
   startAgent(agentId: number): void {
-    const selectedAgent = this.agents.find(agent => agent.getId() === agentId);
+    const selectedAgent = this.agents.find(agent => agent.id === agentId);
     if (selectedAgent) {
       selectedAgent.startAgent();
     }
   }
 
   stopAgent(agentId: number): void {
-    const selectedAgent = this.agents.find(agent => agent.getId() === agentId);
+    const selectedAgent = this.agents.find(agent => agent.id === agentId);
     if (selectedAgent) {
       selectedAgent.stopAgent();
     }

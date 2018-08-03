@@ -3,17 +3,17 @@ import clippyjs from 'clippyjs';
 
 export class Agent {
   private static idCounter = 0;
-  private name: string;
+  private _name: string;
   private tasks: Task[];
-  private id: number;
+  private _id: number;
   private agentObject: any;
   private agentToObservable: any;
   private agentLoader: any;
 
   constructor(name: string) {
-    this.name = name;
+    this._name = name;
     this.tasks = new Array <Task> ();
-    this.id = Agent.idCounter;
+    this._id = Agent.idCounter;
     Agent.idCounter++;
 
     this.agentToObservable = bindCallback(clippyjs.load);
@@ -31,17 +31,16 @@ export class Agent {
     }
   }
 
-  public getName(): string {
-    return this.name;
+  get name(): string {
+    return this._name;
   }
 
-  public setName(newName: string): string {
-    this.name = newName;
-    this.agentLoader = this.agentToObservable(this.name);
+  set name(newName: string) {
+    this._name = newName;
+    this.agentLoader = this.agentToObservable(this._name);
     this.agentLoader.subscribe((agent) => {
       this.agentObject = agent;
     });
-    return this.name;
   }
 
   public addTask(task: Task): void {
@@ -68,8 +67,8 @@ export class Agent {
     this.agentObject.hide();
   }
 
-  public getId(): number {
-    return this.id;
+  get id(): number {
+    return this._id;
   }
 }
 

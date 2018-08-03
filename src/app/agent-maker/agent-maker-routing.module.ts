@@ -6,6 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: AgentMakerComponent
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: ''
   }
 ];
 
