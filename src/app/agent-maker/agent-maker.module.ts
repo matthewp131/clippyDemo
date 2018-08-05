@@ -8,6 +8,7 @@ import { TaskPickerComponent } from './agent-maker/agent-picker/task-picker/task
 import { TaskListerComponent } from './agent-maker/agent-picker/task-lister/task-lister.component';
 import { NamePickerComponent } from './agent-maker/agent-picker/name-picker/name-picker.component';
 import { AgentMakerComponent } from './agent-maker/agent-maker.component';
+import { AgentControllerComponent } from './agent-maker/agent-controller/agent-controller.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AgentMakerComponent } from './agent-maker/agent-maker.component';
     TaskPickerComponent,
     TaskListerComponent,
     NamePickerComponent,
-    AgentMakerComponent
+    AgentMakerComponent,
+    AgentControllerComponent
   ],
   bootstrap: [ AgentMakerComponent ]
 })

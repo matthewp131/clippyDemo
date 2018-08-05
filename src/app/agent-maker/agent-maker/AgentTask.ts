@@ -3,16 +3,16 @@ import clippyjs from 'clippyjs';
 
 export class Agent {
   private static idCounter = 0;
-  private _name: string;
+  public _name: string;
   private tasks: Task[];
-  private _id: number;
+  public _id: number;
   private agentObject: any;
   private agentToObservable: any;
   private agentLoader: any;
 
   constructor(name: string) {
     this._name = name;
-    this.tasks = new Array <Task> ();
+    this.tasks = new Array<Task>();
     this._id = Agent.idCounter;
     Agent.idCounter++;
 
@@ -32,6 +32,10 @@ export class Agent {
   }
 
   get name(): string {
+    return this._name;
+  }
+
+  getName(): string {
     return this._name;
   }
 
@@ -81,7 +85,6 @@ export class Task {
   destination: Coordinates;
   gesture: Coordinates;
   message: string;
-  timeoutMs: number;
 
   constructor(action: string, params?: any) {
     this.action = action;
