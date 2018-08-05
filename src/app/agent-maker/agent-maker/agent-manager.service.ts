@@ -18,7 +18,7 @@ export class AgentManagerService {
   }
 
   getAgents(): Agent[] {
-    return JSON.parse(JSON.stringify(this.agents));
+    return [...this.agents];
   }
 
   startAgent(agentId: number): void {

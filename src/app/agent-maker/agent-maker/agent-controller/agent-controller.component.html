@@ -1,10 +1,37 @@
-<table>
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-  </tr>
-  <tr *ngFor="let agent of agentList">
-    <td>{{agent._id}}</td>
-    <td>{{agent._name}}</td>
-  </tr>
-</table>
+<div class="row">
+  <div class="col-md-4">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr *ngFor="let agent of agentList; let i = index" [ngClass]="{'active': i === selectedRowIndex}" (click)="selectRow(i)">
+          <th scope="row">{{agent._id}}</th>
+          <td>{{agent._name}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" (click)="respawn()" [disabled]="!selectedAgent">Respawn</button>
+  </div>
+  <div class="col-md-8" *ngIf="selectedAgent">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tasks</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr *ngFor="let task of selectedTasks; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{taskToString(task)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

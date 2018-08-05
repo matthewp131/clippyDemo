@@ -12,7 +12,7 @@ export class Agent {
 
   constructor(name: string) {
     this._name = name;
-    this.tasks = new Array <Task> ();
+    this.tasks = new Array<Task>();
     this._id = Agent.idCounter;
     Agent.idCounter++;
 
@@ -85,7 +85,6 @@ export class Task {
   destination: Coordinates;
   gesture: Coordinates;
   message: string;
-  timeoutMs: number;
 
   constructor(action: string, params?: any) {
     this.action = action;
